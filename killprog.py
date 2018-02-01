@@ -6,21 +6,27 @@ hitlist = ["papserver", "pdpserver", "fps", "ffs", "coredns"]
 
 # assert one pid per program name
 pidprog = '(\d*)\/%s'
-def get_pid(progs, netinfo):
-    pids = []
-    for prog in progs:
-        m = re.search(pidprog % (prog), netinfo)
-        pid = m.group(1)
-        if pid is not None:
-            pids.append(pid)
-    return pids
+
+def format_extract(keys, format, info):
+    valuemap = {}
+    for key in keys:
+        m = re.search(format % (key), info)
+        if m is not None:
+            value = m.group(1)
+            if value is not None:
+                valuemap[key] = value
+    return valuemap
+
+def command_extract(cmd, keys, format):
+    stat = subprocess.check_output(cmd.split())
+    return format_extract(keys, format, stat)
 
 def main():
     nstatcmd = 'netstat -plnt'
     killcmd = 'kill %s'
-    stat = subprocess.check_output(nstatcmd.split())
-    pids = get_pid(hitlist, stat)
-    for pid in pids:
+    pidmap = command_extract(nstatcmd, hitlist, pidprog)
+    for prog in pidmap:
+        pid = pidmap[prog]
         killpid = killcmd % (pid)
         subprocess.Popen(killpid.split(), stdout=subprocess.PIPE)
 

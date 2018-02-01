@@ -1,0 +1,36 @@
+version: '2'
+
+# expose everything to host for debugging
+services:
+  fps:
+    image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-22585e12
+    ports:
+      - '8081:8081'
+  ffs:
+    image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-22585e12
+    ports:
+      - '8082:8082'
+  pdp:
+    image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-e4686908
+    ports:
+      - '5554:5554'
+      - '5555:5555'
+  pap:
+    image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-e4686908
+    ports:
+      - '35836:35836'
+    entrypoint:
+      - /usr/bin/papserver -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
+    depends_on:
+      - ffs
+      - fps
+      - pdp
+  coredns:
+    image: docker.inca.infoblox.com/cdnsfw.coredns:0.10.0-e4686908
+    ports:
+      - '1052:1052'
+    entrypoint:
+      - printf ".:1052 {\nproxy . 8.8.8.8:53\nerrors stdout\npolicy{\nendpoint pdp:5555\ntransfer policy_id\ndebug_query_suffix debug.\n}\n}" | tee corefile
+      - coredns -conf corefile
+    depends_on:
+      - pap
