@@ -32,8 +32,7 @@ services:
     image: docker.inca.infoblox.com/cdnsfw.papserver:%s
     ports:
       - '35836:35836'
-    entrypoint:
-      - /usr/bin/papserver -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
+    entrypoint: /usr/bin/papserver -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
     depends_on:
       - ffs
       - fps
@@ -42,9 +41,7 @@ services:
     image: docker.inca.infoblox.com/cdnsfw.coredns:%s
     ports:
       - '1052:1052'
-    entrypoint:
-      - printf ".:1052 {\nproxy . 8.8.8.8:53\nerrors stdout\npolicy{\nendpoint pdp:5555\ntransfer policy_id\ndebug_query_suffix debug.\n}\n}" | tee corefile
-      - coredns -conf corefile
+    entrypoint: wget https://raw.githubusercontent.com/mingkaic/ngp-localspinup/master/dockercorefile && coredns -conf dockercorefile
     depends_on:
       - pap
 """

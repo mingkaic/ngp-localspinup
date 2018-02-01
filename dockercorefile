@@ -1,0 +1,9 @@
+.:1052 {
+    proxy . 8.8.8.8:53
+    errors stdout
+    policy {
+        endpoint pdp:5555
+        transfer policy_id
+        debug_query_suffix debug.
+    }
+}
