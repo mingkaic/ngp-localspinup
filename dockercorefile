@@ -1,9 +1,17 @@
-.:1052 {
+.:1053 {
     proxy . 8.8.8.8:53
-    errors stdout
-    policy {
-        endpoint pdp:5555
-        transfer policy_id
+	errors stdout
+    log
+
+	policy {
+		endpoint pdp:5555
+        edns0 0xffee customer_id
+        edns0 0xffee client_id
+        edns0 0xfff0 client_src
+        edns0 0xfff2 on_prem_host_id
+        edns0 0xfff3 on_prem_client_src
+        edns0 0xfff4 on_prem_mac
         debug_query_suffix debug.
-    }
+		transfer policy_id
+	}
 }

@@ -28,3 +28,7 @@ run-coredns:
 
 kill:
 	python killprog.py
+
+clean: kill
+	rm nohup.out
+	rm query.log

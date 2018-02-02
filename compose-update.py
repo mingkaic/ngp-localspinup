@@ -6,9 +6,9 @@ repotag = '%s\s*([^\s]*)'
 defaulttags = {
     "fps": "0.10.0-22585e12",
     "ffs": "0.10.0-22585e12",
-    "pdp": "0.10.0-e4686908",
-    "pap": "0.10.0-e4686908",
-    "coredns": "0.10.0-e4686908",
+    "pdpserver": "0.10.0-e4686908",
+    "papserver": "0.10.0-e4686908",
+    "cdnsfw.coredns": "0.10.0-e4686908",
 }
 
 composefmt = """version: '2'
@@ -17,12 +17,9 @@ composefmt = """version: '2'
 services:
   fps:
     image: docker.inca.infoblox.com/cdnsfw.fps:%s
-    ports:
-      - '8081:8081'
   ffs:
     image: docker.inca.infoblox.com/cdnsfw.ffs:%s
-    ports:
-      - '8082:8082'
+
   pdp:
     image: docker.inca.infoblox.com/cdnsfw.pdpserver:%s
     ports:
@@ -38,24 +35,37 @@ services:
       - fps
       - pdp
   coredns:
-    image: docker.inca.infoblox.com/cdnsfw.coredns:%s
+    image: sample_coredns:latest
+    build: .
     ports:
-      - '1052:1052'
-    entrypoint: wget https://raw.githubusercontent.com/mingkaic/ngp-localspinup/master/dockercorefile && coredns -conf dockercorefile
+      - '1053:1053'
     depends_on:
-      - pap
+      - pdp
+"""
+
+dockerfmt = """FROM docker.inca.infoblox.com/cdnsfw.coredns:%s
+
+COPY dockercorefile .
+
+ENTRYPOINT [ "/usr/bin/coredns", "-conf", "dockercorefile" ]
 """
 
 def main():
     dockerimg = 'docker images'
-    tagmap = kp.command_extract(dockerimg, kp.hitlist, repotag)
+    tagmap = kp.command_extract(dockerimg, list(defaulttags.keys()), repotag)
     fpstag = tagmap['fps'] or defaulttags['fps']
     ffstag = tagmap['ffs'] or defaulttags['ffs']
-    pdptag = tagmap['pdp'] or defaulttags['pdp']
-    paptag = tagmap['pap'] or defaulttags['pap']
-    dnstag = tagmap['coredns'] or defaulttags['coredns']
-    composestr = composefmt % (fpstag, ffstag, pdptag, paptag, dnstag)
-    print(composestr)
+    pdptag = tagmap['pdpserver'] or defaulttags['pdpserver']
+    paptag = tagmap['papserver'] or defaulttags['papserver']
+    dnstag = tagmap['cdnsfw.coredns'] or defaulttags['cdnsfw.coredns']
+    composestr = composefmt % (fpstag, ffstag, pdptag, paptag)
+    dockerstr = dockerfmt % (dnstag)
+
+    with open("docker-compose.yml", "w") as dc:
+      dc.write(composestr)
+
+    with open("Dockerfile", "w") as df:
+      df.write(dockerstr)
 
 if __name__ == '__main__':
     main()

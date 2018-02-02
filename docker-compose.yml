@@ -4,19 +4,16 @@ version: '2'
 services:
   fps:
     image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-22585e12
-    ports:
-      - '8081:8081'
   ffs:
     image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-22585e12
-    ports:
-      - '8082:8082'
+
   pdp:
     image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-e4686908
     ports:
       - '5554:5554'
       - '5555:5555'
   pap:
-    image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-e4686908
+    image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-e59dd09a
     ports:
       - '35836:35836'
     entrypoint: /usr/bin/papserver -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
@@ -25,9 +22,9 @@ services:
       - fps
       - pdp
   coredns:
-    image: docker.inca.infoblox.com/cdnsfw.coredns:0.10.0-e4686908
+    image: sample_coredns:latest
+    build: .
     ports:
-      - '1052:1052'
-    entrypoint: wget https://raw.githubusercontent.com/mingkaic/ngp-localspinup/master/dockercorefile && coredns -conf dockercorefile
+      - '1053:1053'
     depends_on:
-      - pap
+      - pdp
