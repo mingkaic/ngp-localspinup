@@ -1,0 +1,214 @@
+[
+  {
+    "customer_id": "35e178af10438bd6bf7cbbcb6115a6b3",
+    "storage_id": 300013,
+    "name": "Support Demo Account with Everything",
+    "active": true,
+    "timestamp": 1495649617,
+    "description": "Auto-generated",
+    "unassigned_networks": [
+      {
+        "id": "NETWORK_2",
+        "name": "All Roaming Users (Default)",
+        "description": "Auto-generated",
+        "network_type": "all_roaming_users",
+        "payload": ""
+      }
+    ],
+    "lists": [
+      {
+        "id": "LIST_1",
+        "name": "Bypassed Domains/CIDRs",
+        "description": "Auto-generated",
+        "list": []
+      },
+      {
+        "id": "LIST_11",
+        "list_type": "custom_list",
+        "name": "PC Test List",
+        "description": "PC Test List",
+        "list": [
+          "msn.com",
+          "microsoft.com",
+          "google.com",
+          "bad.belamaric.com",
+          "1.1.1.1",
+          "20.0.0.0/8"
+        ]
+      },
+      {
+        "id": "CF_LIST_1",
+        "list_type": "content_category",
+        "name": "filter1",
+        "description": "filter1",
+        "list": [
+          "News",
+          "Blogs"
+        ]
+      },
+      {
+        "id": "CF_LIST_2",
+        "list_type": "content_category",
+        "name": "filter2",
+        "description": "filter2",
+        "list": [
+          "Drugs"
+        ]
+      }
+    ],
+    "policies": [
+      {
+        "id": "SECURITY_POLICY_1",
+        "policy_id": 1,
+        "name": "Default Global Policy",
+        "description": "Auto-generated",
+        "networks": [
+          {
+            "id": "NETWORK_1",
+            "name": "My network",
+            "description": "My network",
+            "network_type": "cidr",
+            "payload": "127.0.0.0/24"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE_2",
+            "name": "AntiMalware",
+            "feed_type": "named_feed",
+            "feed_data": "antimalware",
+            "action_type": "action_block",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_3",
+            "name": "Ransomware",
+            "feed_type": "named_feed",
+            "feed_data": "ransomware",
+            "action_type": "action_block",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_4",
+            "name": "Bogon",
+            "feed_type": "named_feed",
+            "feed_data": "bogon",
+            "action_type": "action_allow",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_1",
+            "name": "Base",
+            "feed_type": "named_feed",
+            "feed_data": "base",
+            "action_type": "action_allow",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_31",
+            "name": "PC Test List",
+            "feed_type": "custom_list",
+            "feed_data": "LIST_11",
+            "action_type": "action_redirect",
+            "action_data": "default.com"
+          },
+          {
+            "id": "RULE_41",
+            "name": "filter1",
+            "feed_type": "content_category",
+            "feed_data": "CF_LIST_1",
+            "action_type": "action_allow",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_42",
+            "name": "filter2",
+            "feed_type": "content_category",
+            "feed_data": "CF_LIST_2",
+            "action_type": "action_block",
+            "action_data": ""
+          }
+        ]
+      },
+      {
+        "id": "SECURITY_POLICY_6",
+        "policy_id": 6,
+        "name": "First Policy",
+        "description": "",
+        "networks": [
+          {
+            "id": "NETWORK_28",
+            "name": "172.28.33.0/24",
+            "description": "Auto-generated",
+            "network_type": "cidr",
+            "payload": "172.28.33.0/24"
+          },
+          {
+            "id": "NETWORK_29",
+            "name": "172.28.35.0/24",
+            "description": "Auto-generated",
+            "network_type": "cidr",
+            "payload": "172.28.35.0/24"
+          },
+          {
+            "id": "NETWORK_31",
+            "name": "172.28.34.0/24",
+            "description": "Auto-generated",
+            "network_type": "cidr",
+            "payload": "172.28.34.0/24"
+          },
+          {
+            "id": "NETWORK_32",
+            "name": "172.28.32.0/24",
+            "description": "Auto-generated",
+            "network_type": "cidr",
+            "payload": "172.28.32.0/24"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE_32",
+            "name": "PC Test List",
+            "feed_type": "custom_list",
+            "feed_data": "LIST_11",
+            "action_type": "action_redirect",
+            "action_data": "9.9.9.9"
+          },
+          {
+            "id": "RULE_28",
+            "name": "AntiMalware",
+            "feed_type": "named_feed",
+            "feed_data": "antimalware",
+            "action_type": "action_block",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_29",
+            "name": "Ransomware",
+            "feed_type": "named_feed",
+            "feed_data": "ransomware",
+            "action_type": "action_block",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_27",
+            "name": "Base",
+            "feed_type": "named_feed",
+            "feed_data": "base",
+            "action_type": "action_allow",
+            "action_data": ""
+          },
+          {
+            "id": "RULE_30",
+            "name": "Bogon",
+            "feed_type": "named_feed",
+            "feed_data": "bogon",
+            "action_type": "action_redirect",
+            "action_data": "52.4.224.5"
+          }
+        ]
+      }
+    ]
+  }
+]
+  

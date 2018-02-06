@@ -7,7 +7,12 @@ BUILDDIR=local
 all: run-ffs run-fps run-pdp run-pap run-coredns
 	ps
 
-install: install-ffs install-fps install-pap install-pap install-pdp install-core
+install: install-ffs install-fps install-pap install-pap install-pdp install-core fix-fps
+
+install-docker:
+	pushd $(GOPATH)/src/$(POLICY_ENGINE_PATH)
+	make
+	popd
 
 install-ffs:
 	go install $(POLICY_ENGINE_PATH)/ffs
@@ -23,6 +28,9 @@ install-pdp:
 
 install-core:
 	go install $(COREDNS_PATH)
+
+fix-fps:
+	cp customer.json $(POLICY_ENGINE_PATH)/fps
 
 run-ffs:
 	nohup ffs -s $(POLICY_ENGINE_PATH)/ffs/categories.json &
