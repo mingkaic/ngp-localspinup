@@ -6,25 +6,28 @@ services:
     image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-22585e12
   ffs:
     image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-22585e12
+  pip:
+    image: docker.inca.infoblox.com/cdnsfw.pipserver:0.10.0-e59dd09a
 
   pdp:
     image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-e4686908
     ports:
       - '5554:5554'
       - '5555:5555'
+    command: -v 3
   pap:
     image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-e59dd09a
     ports:
       - '35836:35836'
-    entrypoint: /usr/bin/papserver -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
+    command: -vv -pu http://fps:8081 -tu http://ffs:8082 -s pdp:5554
     depends_on:
       - ffs
       - fps
       - pdp
   coredns:
-    image: sample_coredns:latest
-    build: .
+    image: docker.inca.infoblox.com/cdnsfw.coredns:0.10.0-e59dd09a
     ports:
       - '1053:1053'
+    command: -dns-port 1053 -pdpserver-name pdp
     depends_on:
       - pdp

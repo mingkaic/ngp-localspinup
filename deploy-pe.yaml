@@ -1,0 +1,246 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: atc
+---
+apiVersion: v1     
+kind: Secret
+metadata:
+  name: ecs-registry-secret
+  namespace: atc
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSI0MDUwOTM1ODA3NTMuZGtyLmVjci51cy1lYXN0LTEuYW1hem9uYXdzLmNvbSI6IHsKCQkJImF1dGgiOiAiUVZkVE9tVjVTbmRaV0d4ellqSkdhMGxxYjJsWldHUlpWRlV4YUZwSVl6TmFNV1JDU3pGR1VWcHFSVEZYUjNCNlkyNUdhbGRVWkhWUk1tUjBaRWhDTTA1V1pGRmtSMFowWTFSYVMwMUdWbTFTVlhSd1ZHNVdjRlpITlV4aVJtOHdaVWhHVUZkdWJITmFSRkoyV1RCck1sWnVXbTVVTTJ4UVVrZGtiR1JFWkU1Vk0wSldUMFJrVDFWR1dteGhSekZWVkdwT1FscHRNVlJWVjFrelZrVTVhRko2WkdwaE1XTjJaVVpGTW1KV1VtMWtia3BGWWxoQ2FrMVdWalpMTW5NeVkxUkpOR0ZJWkUxaVYwNHlaV3RLYzJGNlZsbE5WbU40Vkc1a1VGSllaRFZsYWtKMVpXMDFOVm94Umt4ak1IUnlWMjVuZVdKVVVqQlRXRko2VVROTmRtUnNjRTFsYlVaRVYwaGtjMVZHUW5GVlNHeDJUakp2TkU5VlNrZFJWM1JyVDFaS2NXUkVRbk5STURCNVRXdFNXVlZJUlhoUk1qVnhWa2RHVWxScVJtdFJhbG93VlZWdmVWcFhhRkpSYmxveFRXcGFVbG95V2twamEyeE1XVlUwZDJOdVRraFNSVnBoVTBod2VFMXVhR2hWYVRsVFdUQkpOV05YT1ZKbGJrRXpWbFJLVG1KRVducE5SM1J0VWtoUmVsb3pUbXhoTUU1clltMHhlVnBWU2s5aVJUazJZVzF3YldSV2NFeFNiV3hZV1dwc1lXTlhUVFZrYmxKcVZESndhbEpXWkZaT1YzUk9UVEp3UjFaV1NYZFRNazU2WWpCS2NXVkZTVFJYUjFKdlpWZG5ORll4V2sxVFZXZ3laVmRhTTFGclVYaE9NVlpVV2pCb1RVNHpRa1JhYm10NlpHeGFVV1ZVUmtsUk1EVlJWMFpDTUZSNmFGUmpNbWd6VFhwYVVHSnJUbmhsYVhSR1kxUk9hVTlWVG0xaFJHaEhVMGh3VEZSclNUSmFWbEo1VWpGTmRsVnNVbEJsV0VwNlYwVTROV0ZWVGxKVU1GSlRWVEI0UTFWNmFHdFpiR2gyVlVaYWEyUnVSblpsUkUxNFVUTmFWVTFxUWtaV1dHUXlVMGRPU2xKVldrMU9WVGcwVGtod05sZHRjM2RWUkVKV1ltNUNiMDlGZUZSaVZscEhVekZOTlZSRlNqQlJiVkV4VFd4d1RsTkZlRWxQVjJoUFUyeFNNMlZVYURWTE1rVTFVMFZrTWxRemF6SlBWMmhRWlZjMGQyRlZSa1ZTU0djeVpESkdjRkZzUW5CTE1YQlpZMVpTZGxNd1VrZFZRemx5V1d0d2IxbHBPVzlpYlhCMVpWVjBkMVp0VmxWT1dGcHdZWHBzUzJSR1FsVk9XRUp5VDFoYVVGbFZlREZpUjJ4SVRqQjBTRTlIVGt4V2VteDVVak5TTTA1RlNYZFBWWGgyVVcxU01HRXlWbEpTTW1oMVdsVnZOR0pXUW5CTk1taEpUa2hPTlVzd1RtcE5NR2h0VjJwYWMxUnRiRkphVkZwR1ZGaENiVmRJUlRKTlJYQm9VV3Q0VDA5SGJGVk9TRlpPWlVaa1RHSXhSbk5aVjBaR1lteHNjVTVyT1hSa2JHUk9VVEExU1dSSFJuWk9iVnB3WVZaYU5rMUVTakpSV0d4MllsVnpNMUZYYUZGaVdFcFJaVVZ3ZVZwRlJYSlRWbVJaVG5wR2VsSkdUazVhU0hCTlZXMUtNRTVWT1dsT1NFNVlXa2RGTTFKVWF6QlRWWGMwVW01d2JXUlZaM2RTVlhoRlZqQTVjRTR3VGxsV2JYQTJVMVYwTVdGcVdtaGthMk16VTBaT1JGRXdTbEZrZW1SRFZVaE9TbFZHU2tkVGVtdzBVekpvYUU1clNscGhibG8yVDFSQ1VHVnFhSFZXU0doV1draE9jbE13WnpOaU1XdDRZMnhSY21SWVpIZFdSbHBNWkZaamQxTXpUbFJoTURGdlRrWkdlRkZxVGpSUFZsWjNUakJqTUdWdFZrVmlWMjh3WWtjMWMyVlZaRWhTUms1cFVrZG9NRTFFU2pCVWJtaDNaR3RPUkZWVVpIQmhWVGswVWxWd2JXUlVSWHBMTUhCYVZqQndURkZWTUhsTU1GWkRXbTF6TUUxc1FYWldhelF5WWpKb1ExTnJhM2xaYTNoQ1ZUSndRMDFITVhKT2JFcEdXVlJCZVdOSFNrUlZNVlpQVmtSQmVGUlZPVWRWYW14Q1dURk9VR1JVVFhKbGJIQlhWREZPV1ZwRVpIbFdWbVI0VDBoR2FsUXlNWGhXVmxwVVVsUXdhVXhEU210WldGSm9ZVEpXTlVscWIybFJWa1pHVVd0R1NXRklaSFJOUm14b1UxWk9TMXBXU2pCVGJUQXhZbXBHU0U1dVZuaGFWMVp5VjBoV2RsZEdhRkZhVkZaV1VtMU9iRTlXU25oUFF6aDRUa2hrUWxGVlJrbE9TR1J0VVZac1MxTXlPV0ZUVjJneVdUQTFRbFZYVGtoaU1HTTBaREpLVWxOVlNrSlNSVXAyVVcxa2NtTlhhSEpoVldNMVpIcENRMUZ1WkVaa01HaHVWMVZ3V2xOV2NFcFJWbVJXVWtWS1FsSllWazVSYTFaR1VrVnNXVkpXYURCUmJHaExWRVJvV1dScE9YQlBSVkpTVTFWS1JsTlZSVE5UVjA0eVkxaHJlbU50T1hwak1HaEVZa2hDUWxOcE9VaGFWRTR4WTJ0d01sTlhaSEJrVkZac1UyMHhXV0Z1UWpWalJUVnhUbnBrZFZORk1UWlpiRkpMVkRJMVdGSjZhRFZaTURWc1kxYzFTMU5VYUhWU01IaHhVakZLVTA1VldrSlhWbHBDVW5wWmRsRlVNR2xNUTBveVdsaEtlbUZYT1hWSmFtOXBUVk5KYzBsdVVqVmpSMVZwVDJsS1JWRldVa0pZTUhSR1YxTktPUT09IgoJCX0KCX0KfQo=
+type: kubernetes.io/dockerconfigjson
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  ports:
+  - name: policy
+    port: 5555
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpcontrol
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  clusterIP: None
+  ports:
+  - name: control
+    port: 5554
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pdpserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: pdpserver
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: pdpserver
+    spec:
+      containers:
+      - name: pdpserver
+        image: 405093580753.dkr.ecr.us-east-1.amazonaws.com/k8s-atc-themis:latest
+        imagePullPolicy: Always
+        args: ["-v","3","-t","zipkin:9411","-h","localhost:8181"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coredns
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: coredns
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: atc
+data:
+  Corefile: |
+    .:53 {
+        errors
+        log stdout
+        health :9191
+        policy {
+          endpoint pdpserver:5555
+          edns0 0xffee customer_id
+        }
+        trace zipkin:9411 {
+          service coredns
+        }
+        proxy . 100.70.200.46:53
+    }
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: atc
+  labels:
+    application: atc
+spec:
+    selector:
+      matchLabels:
+        app-service: coredns
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          application: atc
+          app-service: coredns
+      spec:
+        imagePullSecrets:
+        - name: ecs-registry-secret
+        containers:
+        - name: coredns
+          image: 405093580753.dkr.ecr.us-east-1.amazonaws.com/k8s-atc-coredns:latest
+          args: ["-conf","/etc/coredns/Corefile"]
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/coredns
+        volumes:
+          - name: config-volume
+            configMap:
+              name: coredns
+              items:
+              - key: Corefile
+                path: Corefile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unbound
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: unbound
+  clusterIP: 100.70.200.46
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: unbound
+  namespace: atc
+  labels:
+    application: atc
+spec:
+    selector:
+      matchLabels:
+        app-service: unbound
+    replicas: 3
+    template:
+      metadata:
+        labels:
+          application: atc
+          app-service: unbound
+      spec:
+        containers:
+        - name: unbound
+          image: secns/unbound:1.6.2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: zipkin
+  ports:
+  - name: http
+    port: 9411
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin
+  namespace: atc
+  labels:
+    application: atc
+spec:
+    selector:
+      matchLabels:
+        app-service: zipkin
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          application: atc
+          app-service: zipkin
+      spec:
+        containers:
+        - name: zipkin
+          image: openzipkin/zipkin:1.20
+          imagePullPolicy: Always
+          args: []
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: papserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: papserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: papserver
+    spec:
+      containers:
+      - name: papserver
+        image: 405093580753.dkr.ecr.us-east-1.amazonaws.com/k8s-atc-papserver:latest
+        imagePullPolicy: Always

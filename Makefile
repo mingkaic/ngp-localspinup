@@ -1,15 +1,28 @@
-POLICY_ENGINE_PATH=$(GOPATH)/src/github.com/Infoblox-CTO/ngp-policy-engine
+POLICY_ENGINE_PATH=github.com/Infoblox-CTO/ngp-policy-engine
+VENDOR_PATH=$(POLICY_ENGINE_PATH)/vendor/github.com
+THEMIS_PATH=$(VENDOR_PATH)/infobloxopen/themis
+COREDNS_PATH=$(VENDOR_PATH)/coredns/coredns
+BUILDDIR=local
 
 all: run-ffs run-fps run-pdp run-pap run-coredns
 	ps
 
-install:
-	pushd $(POLICY_ENGINE_PATH)
-	make
-	cd ffs && go install && cd ..
-	cd fps && go install && cd ..
-	cp  kubernetes/k8s-atc-{papserver/papserver,themis/pdpserver,coredns/coredns} $(GOPATH)/bin
-	popd
+install: install-ffs install-fps install-pap install-pap install-pdp install-core
+
+install-ffs:
+	go install $(POLICY_ENGINE_PATH)/ffs
+
+install-fps:
+	go install $(POLICY_ENGINE_PATH)/fps
+
+install-pap:
+	go install $(POLICY_ENGINE_PATH)/papserver
+
+install-pdp:
+	go install $(THEMIS_PATH)/pdpserver
+
+install-core:
+	go install $(COREDNS_PATH)
 
 run-ffs:
 	nohup ffs -s $(POLICY_ENGINE_PATH)/ffs/categories.json &
@@ -31,4 +44,4 @@ kill:
 
 clean: kill
 	rm nohup.out
-	rm query.log
+	rm *.log
