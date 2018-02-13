@@ -1,4 +1,18 @@
-apiVersion: v1
+#!/usr/bin/env python3
+import killprog as kp
+
+repotag = '%s\s*([^\s]*)'
+
+defaulttags = {
+    "cdnsfw.fps": "0.10.0-22585e12",
+    "cdnsfw.ffs": "0.10.0-22585e12",
+    "cdnsfw.pdpserver": "0.10.0-e4686908",
+    "cdnsfw.papserver": "0.10.0-e4686908",
+    "cdnsfw.pip": "0.10.0-e4686908",
+    "cdnsfw.coredns": "0.10.0-e4686908",
+}
+
+k8sfmt = """apiVersion: v1
 kind: Namespace
 metadata:
   name: atc
@@ -63,7 +77,7 @@ spec:
     spec:
       containers:
       - name: pdpserver
-        image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-732a6b50
+        image: docker.inca.infoblox.com/cdnsfw.pdpserver:%s
         imagePullPolicy: Always
         args: ["-v","3"]
 ---
@@ -170,9 +184,9 @@ spec:
     spec:
       containers:
       - name: papserver
-        image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-732a6b50
+        image: docker.inca.infoblox.com/cdnsfw.papserver:%s
+        args: ["-vv", "-pu", "http://fps:8081" -tu "http://ffs:8082" -s "pdpserver:5554"]
         imagePullPolicy: Always
-        args: ["-vv", "-pu", "http://fps:8081", "-tu", "http://ffs:8082", "-s", "pdpserver:5554"]
 ---
 apiVersion: v1
 kind: Service
@@ -185,7 +199,7 @@ spec:
   selector:
     app-service: fps
   ports:
-  - name: fakepolicy
+  - name: fake_policy
     port: 8081
     protocol: TCP
 ---
@@ -209,7 +223,7 @@ spec:
     spec:
       containers:
       - name: fps
-        image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-732a6b50
+        image: docker.inca.infoblox.com/cdnsfw.fps:%s
 ---
 apiVersion: v1
 kind: Service
@@ -222,7 +236,7 @@ spec:
   selector:
     app-service: ffs
   ports:
-  - name: fakefeed
+  - name: fake_feed
     port: 8082
     protocol: TCP
 ---
@@ -246,4 +260,20 @@ spec:
     spec:
       containers:
       - name: ffs
-        image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-732a6b50
+        image: docker.inca.infoblox.com/cdnsfw.ffs:%s
+"""
+
+def main():
+    dockerimg = 'docker images'
+    tagmap = kp.command_extract(dockerimg, list(defaulttags.keys()), repotag)
+    pdptag = tagmap['cdnsfw.pdpserver'] or defaulttags['cdnsfw.pdpserver']
+    paptag = tagmap['cdnsfw.papserver'] or defaulttags['cdnsfw.papserver']
+    fpstag = tagmap['cdnsfw.fps'] or defaulttags['cdnsfw.fps']
+    ffstag = tagmap['cdnsfw.ffs'] or defaulttags['cdnsfw.ffs']
+    k8sstr = k8sfmt % (pdptag, paptag, fpstag, ffstag)
+
+    with open("deploy-pe.yaml", "w") as dc:
+      dc.write(k8sstr)
+
+if __name__ == '__main__':
+    main()

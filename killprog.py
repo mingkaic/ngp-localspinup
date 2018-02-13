@@ -28,7 +28,7 @@ def main():
     for prog in pidmap:
         pid = pidmap[prog]
         killpid = killcmd % (pid)
-        subprocess.Popen(killpid.split(), stdout=subprocess.PIPE)
+        subprocess.Popen(killpid.split())
 
 if __name__ == '__main__':
     main()

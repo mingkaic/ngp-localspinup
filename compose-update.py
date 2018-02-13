@@ -20,8 +20,6 @@ services:
     image: docker.inca.infoblox.com/cdnsfw.fps:%s
   ffs:
     image: docker.inca.infoblox.com/cdnsfw.ffs:%s
-  pip:
-    image: docker.inca.infoblox.com/cdnsfw.pipserver:%s
 
   pdp:
     image: docker.inca.infoblox.com/cdnsfw.pdpserver:%s
@@ -39,12 +37,20 @@ services:
       - fps
       - pdp
   coredns:
-    image: docker.inca.infoblox.com/cdnsfw.coredns:%s
+    image: corednsonly:latest
+    build: .
     ports:
       - '1053:1053'
     command: -dns-port 1053 -pdpserver-name pdp
     depends_on:
       - pdp
+"""
+
+dockerfmt = """FROM docker.inca.infoblox.com/cdnsfw.coredns:%s
+
+COPY dockercorefile .
+
+ENTRYPOINT [ "/usr/bin/coredns", "-conf", "dockercorefile" ]
 """
 
 def main():
@@ -56,10 +62,15 @@ def main():
     pdptag = tagmap['cdnsfw.pdpserver'] or defaulttags['cdnsfw.pdpserver']
     paptag = tagmap['cdnsfw.papserver'] or defaulttags['cdnsfw.papserver']
     dnstag = tagmap['cdnsfw.coredns'] or defaulttags['cdnsfw.coredns']
-    composestr = composefmt % (fpstag, ffstag, piptag, pdptag, paptag, dnstag)
+    composestr = composefmt % (fpstag, ffstag, piptag, pdptag, paptag)
+
+    dockerstr = dockerfmt % (dnstag)
 
     with open("docker-compose.yml", "w") as dc:
       dc.write(composestr)
+
+    with open("Dockerfile", "w") as df:
+      df.write(dockerstr)
 
 if __name__ == '__main__':
     main()
