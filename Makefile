@@ -74,3 +74,4 @@ kill:
 clean: kill
 	rm nohup.out
 	rm *.log
+	rm pap_cache*

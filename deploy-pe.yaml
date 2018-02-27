@@ -3,15 +3,6 @@ kind: Namespace
 metadata:
   name: atc
 ---
-apiVersion: v1     
-kind: Secret
-metadata:
-  name: ecs-registry-secret
-  namespace: atc
-data:
-  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSI0MDUwOTM1ODA3NTMuZGtyLmVjci51cy1lYXN0LTEuYW1hem9uYXdzLmNvbSI6IHsKCQkJImF1dGgiOiAiUVZkVE9tVjVTbmRaV0d4ellqSkdhMGxxYjJsWldHUlpWRlV4YUZwSVl6TmFNV1JDU3pGR1VWcHFSVEZYUjNCNlkyNUdhbGRVWkhWUk1tUjBaRWhDTTA1V1pGRmtSMFowWTFSYVMwMUdWbTFTVlhSd1ZHNVdjRlpITlV4aVJtOHdaVWhHVUZkdWJITmFSRkoyV1RCck1sWnVXbTVVTTJ4UVVrZGtiR1JFWkU1Vk0wSldUMFJrVDFWR1dteGhSekZWVkdwT1FscHRNVlJWVjFrelZrVTVhRko2WkdwaE1XTjJaVVpGTW1KV1VtMWtia3BGWWxoQ2FrMVdWalpMTW5NeVkxUkpOR0ZJWkUxaVYwNHlaV3RLYzJGNlZsbE5WbU40Vkc1a1VGSllaRFZsYWtKMVpXMDFOVm94Umt4ak1IUnlWMjVuZVdKVVVqQlRXRko2VVROTmRtUnNjRTFsYlVaRVYwaGtjMVZHUW5GVlNHeDJUakp2TkU5VlNrZFJWM1JyVDFaS2NXUkVRbk5STURCNVRXdFNXVlZJUlhoUk1qVnhWa2RHVWxScVJtdFJhbG93VlZWdmVWcFhhRkpSYmxveFRXcGFVbG95V2twamEyeE1XVlUwZDJOdVRraFNSVnBoVTBod2VFMXVhR2hWYVRsVFdUQkpOV05YT1ZKbGJrRXpWbFJLVG1KRVducE5SM1J0VWtoUmVsb3pUbXhoTUU1clltMHhlVnBWU2s5aVJUazJZVzF3YldSV2NFeFNiV3hZV1dwc1lXTlhUVFZrYmxKcVZESndhbEpXWkZaT1YzUk9UVEp3UjFaV1NYZFRNazU2WWpCS2NXVkZTVFJYUjFKdlpWZG5ORll4V2sxVFZXZ3laVmRhTTFGclVYaE9NVlpVV2pCb1RVNHpRa1JhYm10NlpHeGFVV1ZVUmtsUk1EVlJWMFpDTUZSNmFGUmpNbWd6VFhwYVVHSnJUbmhsYVhSR1kxUk9hVTlWVG0xaFJHaEhVMGh3VEZSclNUSmFWbEo1VWpGTmRsVnNVbEJsV0VwNlYwVTROV0ZWVGxKVU1GSlRWVEI0UTFWNmFHdFpiR2gyVlVaYWEyUnVSblpsUkUxNFVUTmFWVTFxUWtaV1dHUXlVMGRPU2xKVldrMU9WVGcwVGtod05sZHRjM2RWUkVKV1ltNUNiMDlGZUZSaVZscEhVekZOTlZSRlNqQlJiVkV4VFd4d1RsTkZlRWxQVjJoUFUyeFNNMlZVYURWTE1rVTFVMFZrTWxRemF6SlBWMmhRWlZjMGQyRlZSa1ZTU0djeVpESkdjRkZzUW5CTE1YQlpZMVpTZGxNd1VrZFZRemx5V1d0d2IxbHBPVzlpYlhCMVpWVjBkMVp0VmxWT1dGcHdZWHBzUzJSR1FsVk9XRUp5VDFoYVVGbFZlREZpUjJ4SVRqQjBTRTlIVGt4V2VteDVVak5TTTA1RlNYZFBWWGgyVVcxU01HRXlWbEpTTW1oMVdsVnZOR0pXUW5CTk1taEpUa2hPTlVzd1RtcE5NR2h0VjJwYWMxUnRiRkphVkZwR1ZGaENiVmRJUlRKTlJYQm9VV3Q0VDA5SGJGVk9TRlpPWlVaa1RHSXhSbk5aVjBaR1lteHNjVTVyT1hSa2JHUk9VVEExU1dSSFJuWk9iVnB3WVZaYU5rMUVTakpSV0d4MllsVnpNMUZYYUZGaVdFcFJaVVZ3ZVZwRlJYSlRWbVJaVG5wR2VsSkdUazVhU0hCTlZXMUtNRTVWT1dsT1NFNVlXa2RGTTFKVWF6QlRWWGMwVW01d2JXUlZaM2RTVlhoRlZqQTVjRTR3VGxsV2JYQTJVMVYwTVdGcVdtaGthMk16VTBaT1JGRXdTbEZrZW1SRFZVaE9TbFZHU2tkVGVtdzBVekpvYUU1clNscGhibG8yVDFSQ1VHVnFhSFZXU0doV1draE9jbE13WnpOaU1XdDRZMnhSY21SWVpIZFdSbHBNWkZaamQxTXpUbFJoTURGdlRrWkdlRkZxVGpSUFZsWjNUakJqTUdWdFZrVmlWMjh3WWtjMWMyVlZaRWhTUms1cFVrZG9NRTFFU2pCVWJtaDNaR3RPUkZWVVpIQmhWVGswVWxWd2JXUlVSWHBMTUhCYVZqQndURkZWTUhsTU1GWkRXbTF6TUUxc1FYWldhelF5WWpKb1ExTnJhM2xaYTNoQ1ZUSndRMDFITVhKT2JFcEdXVlJCZVdOSFNrUlZNVlpQVmtSQmVGUlZPVWRWYW14Q1dURk9VR1JVVFhKbGJIQlhWREZPV1ZwRVpIbFdWbVI0VDBoR2FsUXlNWGhXVmxwVVVsUXdhVXhEU210WldGSm9ZVEpXTlVscWIybFJWa1pHVVd0R1NXRklaSFJOUm14b1UxWk9TMXBXU2pCVGJUQXhZbXBHU0U1dVZuaGFWMVp5VjBoV2RsZEdhRkZhVkZaV1VtMU9iRTlXU25oUFF6aDRUa2hrUWxGVlJrbE9TR1J0VVZac1MxTXlPV0ZUVjJneVdUQTFRbFZYVGtoaU1HTTBaREpLVWxOVlNrSlNSVXAyVVcxa2NtTlhhSEpoVldNMVpIcENRMUZ1WkVaa01HaHVWMVZ3V2xOV2NFcFJWbVJXVWtWS1FsSllWazVSYTFaR1VrVnNXVkpXYURCUmJHaExWRVJvV1dScE9YQlBSVkpTVTFWS1JsTlZSVE5UVjA0eVkxaHJlbU50T1hwak1HaEVZa2hDUWxOcE9VaGFWRTR4WTJ0d01sTlhaSEJrVkZac1UyMHhXV0Z1UWpWalJUVnhUbnBrZFZORk1UWlpiRkpMVkRJMVdGSjZhRFZaTURWc1kxYzFTMU5VYUhWU01IaHhVakZLVTA1VldrSlhWbHBDVW5wWmRsRlVNR2xNUTBveVdsaEtlbUZYT1hWSmFtOXBUVk5KYzBsdVVqVmpSMVZwVDJsS1JWRldVa0pZTUhSR1YxTktPUT09IgoJCX0KCX0KfQo=
-type: kubernetes.io/dockerconfigjson
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -43,6 +34,22 @@ spec:
     port: 5554
     protocol: TCP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpdebug
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  clusterIP: None
+  ports:
+  - name: control
+    port: 5553
+    protocol: TCP
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -63,9 +70,9 @@ spec:
     spec:
       containers:
       - name: pdpserver
-        image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-732a6b50
-        imagePullPolicy: Always
-        args: ["-v","3"]
+        image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","3","-health","localhost:8181"]
 ---
 apiVersion: v1
 kind: Service
@@ -79,10 +86,10 @@ spec:
     app-service: coredns
   ports:
   - name: dns
-    port: 1053
+    port: 53
     protocol: UDP
   - name: dns-tcp
-    port: 1053
+    port: 53
     protocol: TCP
 ---
 apiVersion: v1
@@ -92,25 +99,25 @@ metadata:
   namespace: atc
 data:
   Corefile: |
-    .:1053 {
+    .:53 {
+        errors
+        log stdout
+        health :9191
+        policy {
+          endpoint pdpserver:5555
+          edns0 0xffee customer_id hex string 32 0 16
+          edns0 0xffee client_id hex string 32 16 32
+          edns0 0xfff0 client_src
+          edns0 0xfff2 site_id
+          edns0 0xfff2 on_prem_host_id
+          edns0 0xfff3 on_prem_client_src
+          edns0 0xfff4 on_prem_mac
+          debug_query_suffix debug.
+          transfer policy_id
+        }
         proxy . 10.82.3.10:53 10.120.3.10:53 {
             policy round_robin
             max_fails 0
-        }
-        errors stdout
-        log
-
-        policy {
-            endpoint pdpserver:5555
-            edns0 0xffee customer_id hex string 32 0 16
-            edns0 0xffee client_id hex string 32 16 32
-            edns0 0xfff0 client_src
-            edns0 0xfff2 site_id
-            edns0 0xfff2 on_prem_host_id
-            edns0 0xfff3 on_prem_client_src
-            edns0 0xfff4 on_prem_mac
-            debug_query_suffix debug.
-            transfer policy_id
         }
     }
 ---
@@ -136,9 +143,9 @@ spec:
         - name: ecs-registry-secret
         containers:
         - name: coredns
-          image: corednsonly:latest
-          args: ["-conf","/etc/coredns/Corefile"]
-          imagePullPolicy: Always
+          image: docker.inca.infoblox.com/cdnsfw.coredns:0.10.0-5a2bc69d
+          args: ["-config","/etc/coredns/Corefile"]
+          imagePullPolicy: IfNotPresent
           volumeMounts:
           - name: config-volume
             mountPath: /etc/coredns
@@ -170,80 +177,6 @@ spec:
     spec:
       containers:
       - name: papserver
-        image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-732a6b50
-        imagePullPolicy: Always
-        args: ["-vv", "-pu", "http://fps:8081", "-tu", "http://ffs:8082", "-s", "pdpserver:5554"]
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fps
-  namespace: atc
-  labels:
-    application: atc
-spec:
-  selector:
-    app-service: fps
-  ports:
-  - name: fakepolicy
-    port: 8081
-    protocol: TCP
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: fps
-  namespace: atc
-  labels:
-    application: atc
-spec:
-  selector:
-    matchLabels:
-      app-service: fps
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        application: atc
-        app-service: fps
-    spec:
-      containers:
-      - name: fps
-        image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-732a6b50
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ffs
-  namespace: atc
-  labels:
-    application: atc
-spec:
-  selector:
-    app-service: ffs
-  ports:
-  - name: fakefeed
-    port: 8082
-    protocol: TCP
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: ffs
-  namespace: atc
-  labels:
-    application: atc
-spec:
-  selector:
-    matchLabels:
-      app-service: ffs
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        application: atc
-        app-service: ffs
-    spec:
-      containers:
-      - name: ffs
-        image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-732a6b50
+        image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-log-level","info"]

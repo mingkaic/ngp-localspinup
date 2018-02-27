@@ -22,17 +22,17 @@ def main():
     paptag = tagmap['cdnsfw.papserver'] or defaulttags['cdnsfw.papserver']
     fpstag = tagmap['cdnsfw.fps'] or defaulttags['cdnsfw.fps']
     ffstag = tagmap['cdnsfw.ffs'] or defaulttags['cdnsfw.ffs']
+    corednstag = tagmap['cdnsfw.coredns'] or defaulttags['cdnsfw.coredns']
     images = {
         infoblox_registry + "cdnsfw.fps:" + fpstag,
         infoblox_registry + "cdnsfw.ffs:" + ffstag,
         infoblox_registry + "cdnsfw.pdpserver:" + pdptag,
         infoblox_registry + "cdnsfw.papserver:" + paptag,
-        "corednsonly:latest",
+        infoblox_registry + "cdnsfw.coredns:" + corednstag,
     }
-    commands = [ "docker tag {img} {repo}/{img}".format(repo = minikube_registry, img = img) for img in images ] + \
-        [ "docker push {repo}/{img}".format(repo = minikube_registry, img = img) for img in images ]
-    for cmd in commands:
-        subprocess.Popen(cmd.split())
+    for img in images:
+        command = "docker save \"%s\" | pv | (eval $(minikube docker-env) && docker load)" % img
+        subprocess.Popen(command.split())
 
 if __name__ == '__main__':
     main()
