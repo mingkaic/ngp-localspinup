@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: policyfeed
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: fps
+  clusterIP: None
+  ports:
+  - name: control
+    port: 8081
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: threatfeed
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: ffs
+  clusterIP: None
+  ports:
+  - name: control
+    port: 8082
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fps
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: fps
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: fps
+    spec:
+      containers:
+      - name: fps
+        image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","-i","10s"]
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ffs
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: ffs
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: ffs
+    spec:
+      containers:
+      - name: ffs
+        image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","-i","10s"]

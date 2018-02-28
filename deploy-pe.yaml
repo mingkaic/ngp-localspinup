@@ -44,9 +44,8 @@ metadata:
 spec:
   selector:
     app-service: pdpserver
-  clusterIP: None
   ports:
-  - name: control
+  - name: debug
     port: 5553
     protocol: TCP
 ---
@@ -72,7 +71,7 @@ spec:
       - name: pdpserver
         image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-5a2bc69d
         imagePullPolicy: IfNotPresent
-        args: ["-v","3","-health","localhost:8181"]
+        args: ["-log-level","3","-health","localhost:8181"]
 ---
 apiVersion: v1
 kind: Service
@@ -157,6 +156,86 @@ spec:
               - key: Corefile
                 path: Corefile
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: policyfeed
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: fps
+  clusterIP: None
+  ports:
+  - name: control
+    port: 8081
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: threatfeed
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: ffs
+  clusterIP: None
+  ports:
+  - name: control
+    port: 8082
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fps
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: fps
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: fps
+    spec:
+      containers:
+      - name: fps
+        image: docker.inca.infoblox.com/cdnsfw.fps:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","-i","10s"]
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ffs
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: ffs
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: ffs
+    spec:
+      containers:
+      - name: ffs
+        image: docker.inca.infoblox.com/cdnsfw.ffs:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","-i","10s"]
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -179,4 +258,4 @@ spec:
       - name: papserver
         image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-5a2bc69d
         imagePullPolicy: IfNotPresent
-        args: ["-log-level","info"]
+        args: ["-log-level","info","-pu","http://policyfeed:8081","-tu","http://threatfeed:8082"]

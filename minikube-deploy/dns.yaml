@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coredns
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: coredns
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: atc
+data:
+  Corefile: |
+    .:53 {
+        errors
+        log stdout
+        health :9191
+        policy {
+          endpoint pdpserver:5555
+          edns0 0xffee customer_id hex string 32 0 16
+          edns0 0xffee client_id hex string 32 16 32
+          edns0 0xfff0 client_src
+          edns0 0xfff2 site_id
+          edns0 0xfff2 on_prem_host_id
+          edns0 0xfff3 on_prem_client_src
+          edns0 0xfff4 on_prem_mac
+          debug_query_suffix debug.
+          transfer policy_id
+        }
+        proxy . 10.82.3.10:53 10.120.3.10:53 {
+            policy round_robin
+            max_fails 0
+        }
+    }
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: atc
+  labels:
+    application: atc
+spec:
+    selector:
+      matchLabels:
+        app-service: coredns
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          application: atc
+          app-service: coredns
+      spec:
+        imagePullSecrets:
+        - name: ecs-registry-secret
+        containers:
+        - name: coredns
+          image: docker.inca.infoblox.com/cdnsfw.coredns:0.10.0-5a2bc69d
+          args: ["-config","/etc/coredns/Corefile"]
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/coredns
+        volumes:
+          - name: config-volume
+            configMap:
+              name: coredns
+              items:
+              - key: Corefile
+                path: Corefile

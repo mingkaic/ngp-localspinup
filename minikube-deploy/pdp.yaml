@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  ports:
+  - name: policy
+    port: 5555
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpcontrol
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  clusterIP: None
+  ports:
+  - name: control
+    port: 5554
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdpdebug
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    app-service: pdpserver
+  clusterIP: None
+  ports:
+  - name: control
+    port: 5553
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pdpserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: pdpserver
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: pdpserver
+    spec:
+      containers:
+      - name: pdpserver
+        image: docker.inca.infoblox.com/cdnsfw.pdpserver:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-v","3","-health","localhost:8181"]

@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: papserver
+  namespace: atc
+  labels:
+    application: atc
+spec:
+  selector:
+    matchLabels:
+      app-service: papserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        application: atc
+        app-service: papserver
+    spec:
+      containers:
+      - name: papserver
+        image: docker.inca.infoblox.com/cdnsfw.papserver:0.10.0-5a2bc69d
+        imagePullPolicy: IfNotPresent
+        args: ["-log-level","info","-pu","http://fps:8081","-tu","http://ffs:8082"]
